@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/favicon-16x16.png" type="image/png">
+    <script src="script.js" type="text/javascript"></script>
+    <title>Бухарцев Матвей, 201-321. Использование форм. Тест математических знаний</title>
+</head>
+<body>
+    <header style="<?php if ($view=='print') echo 'display: none;' ?>">
+        <img src = "img\Mospolytech_logo.jpg">
+    </header>
+    <main style="<?php if ($view=='print') echo 'display: none;' ?>">
+        <form name="Test" method="<?= $post_or_get ?>" class="main-form">
+            <div class="form-row">
+                <label for="name">ФИО: </label>
+                <input type="text" name="fullname" required value="<?= $name ?>" <?php if ($post_or_get=='GET') echo 'readonly' ?> >
+            </div>
+            <div class="form-row">
+                <label for="number">Номер группы: </label>
+                <input type="text" name="number" required value="<?= $group_number ?>" <?php if ($post_or_get=='GET') echo 'readonly' ?> >
+            </div>
+            <div class="form-row">
+                <label for="about">Немного о себе: </label>
+                <textarea name="about" <?php if ($post_or_get=='GET') echo 'readonly disabled' ?> ><?= $about ?></textarea>
+            </div>
+            <div class="form-row">
+                <label for="A">Значение А: </label>
+                <input type="text" name="A" required value="<?= $a_value ?>" <?php if ($post_or_get=='GET') echo 'readonly disabled' ?> >
+            </div>
+            <div class="form-row">
+                <label for="B">Значение В: </label> 
+                <input type="text" name="B" required value="<?= $b_value ?>" <?php if ($post_or_get=='GET') echo 'readonly disabled' ?> >
+            </div>
+            <div class="form-row">
+                <label for="C">Значение С: </label> 
+                <input type="text" name="C" required value="<?= $c_value ?>" <?php if ($post_or_get=='GET') echo 'readonly disabled' ?> >
+            </div>
+            <div class="form-row">
+                <label for="type_of_calc">Метод вычисления: </label>
+                <select name="type_of_calc"  <?php if ($post_or_get=='GET') echo 'readonly disabled'; ?> >
+                    <?php
+                        $array_of_var = ['Найти минимум','Площадь треугольника','Периметр треугольника','Среднее арифметическое','Найти максимум','Произведение чисел'];
+                        $is_selected = '';
+                        for ($i=0; $i < count($array_of_var); $i++) {
+                            if ($type_of_calc!='') {
+                                if ($type_of_calc==$array_of_var[$i]) $isselected = ' selected';
+                                else $is_selected = ' disabled';
+                            }
+                            echo '<option'.$is_selected.'>'.$array_of_var[$i].'</option>';
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="answer_your">Ваш ответ: </label>
+                <input type="text" name="answer_your" required value="<?= $ans_your ?>" <?php if ($post_or_get=='GET') echo 'readonly disabled' ?> >
+            </div>
+            <div class="form-row" style="<?php if ($post_or_get=='POST') echo 'display: none;' ?>">
+                <label for="answer_right">Правильный ответ: </label>
+                <input type="text" name="answer_right" value="<?= $ans_right ?>" readonly disabled>
+            </div>
+            <div class="form-row" style="<?php if ($post_or_get=='POST') echo 'display: none;' ?>">
+                <label for="result">Результат: </label>
+                <input type="text" name="result" value="<?= $test_result ?>" readonly disabled>
+            </div>
+            <div class="form-row">
+                <label for="sendCheck"><?php if ($post_or_get=='POST') echo 'Отправить результат на email?'; else {if ($email_check==true) echo 'Результат отправлен на почту.';} ?></label>
+                <input type="checkbox" name="checkemail" id="sendCheck" <?php if ($email_check) echo 'checked'; ?> style="<?php if ($post_or_get=='GET') echo 'display: none;' ?>" onchange="changeSendCheck(event)">
+            </div>
+            <div class="form-row" style="<?php if ($email_check!=true) echo 'display: none;'; ?>" id="email">
+                <label for="email">Ваш email:</label>
+                <input type="text" name="email" value="<?= $email ?>" <?php if ($post_or_get=='GET') echo 'readonly' ?> <?php if ($email_check==true) echo 'required'; ?> >
+            </div>
+            <div class="form-row" style="<?php if ($post_or_get=='GET') echo 'display: none;' ?>">
+                <label>Отображение</label>
+                <select name="view" <?php if ($post_or_get=='GET') echo 'disabled' ?>>
+                    <option value="print">Версия для печати</option>
+                    <option value="browser" selected>Версия для просмотра в браузере</option>
+                </select> 
+            </div>
+            <div class="form-row">
+                <button type="submit" class="form-btn"><?php if ($post_or_get=='POST') echo 'Проверить'; else echo 'Повторить тест'; ?></button>
+                <button type="reset" class="form-btn" style="<?php if ($post_or_get=='GET') echo 'display: none;' ?>">Сбросить</button>
+            </div>
+        </form>
+    </main>
+    <footer style="<?php if ($view=='print') echo 'display: none;' ?>">Бухарцев Матвей, 201-321</footer>
+    <?php if ($view=='print') {
+        echo '<div class="wrapper">';
+            echo 'ФИО: '.$name.'<br>'
+            .'Номер группы: '.$group_number.'<br>'
+            .'Немного о себе: '.$about.'<br>'
+            .'Значение А: '.$a_value.'<br>'
+            .'Значение B: '.$b_value.'<br>'
+            .'Значение C: '.$c_value.'<br>'
+            .'Метод вычисления: '.$type_of_calc.'<br>'
+            .'Ваш ответ: '.$ans_your.'<br>'
+            .'Правильный ответ: '.$ans_right.'<br>'
+            .'Результат: '.$test_result.'<br>';
+        if ($email!='') echo 'Результат отправлен на почту '.$email.'<br>';
+        echo '</div>';
+     } ?>
+</body>
