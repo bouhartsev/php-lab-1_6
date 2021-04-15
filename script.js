@@ -1,5 +1,10 @@
 function changeSendCheck(event) {
-    console.log(this, event);
-    if (!this.checked) document.getElementById("email").style.display = 'none';
-    else  document.getElementById("email").style.display = 'flex';
+    if (!event.target.checked) {
+        document.getElementById("email").style.display = 'none';
+        document.getElementById("email").removeAttribute('required');
+    }
+    else {
+        document.getElementById("email").style.display = 'flex';
+        document.getElementById("email").setAttribute('required', '');
+    }
 }

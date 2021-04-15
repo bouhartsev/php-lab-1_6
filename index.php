@@ -10,9 +10,11 @@
     $ans_right = '';
     $email = '';
     $email_check = false;
+    $email_result = false;
     $view = '';
     $test_result = '';
     $post_or_get = 'POST';
+    $message = '';
 
     function calcMin($a, $b, $c) {
         $result = 0;
@@ -98,7 +100,8 @@
         $email_check, 
         $view, 
         $test_result,
-        $post_or_get;
+        $post_or_get,
+        $message;
 
         if (isset($_POST['fullname'])) {
             $name = $_POST['fullname'];
@@ -118,6 +121,20 @@
 
             if ($ans_your==$ans_right) $test_result = 'Тест пройден';
             else $test_result = 'Тест не пройден';
+
+            $message = '<div class="wrapper">'
+                .'ФИО: '.$name.'<br>'
+                .'Номер группы: '.$group_number.'<br>'
+                .'Немного о себе: '.$about.'<br>'
+                .'Значение А: '.$a_value.'<br>'
+                .'Значение B: '.$b_value.'<br>'
+                .'Значение C: '.$c_value.'<br>'
+                .'Метод вычисления: '.$type_of_calc.'<br>'
+                .'Ваш ответ: '.$ans_your.'<br>'
+                .'Правильный ответ: '.$ans_right.'<br>'
+                .'Результат: '.$test_result.'<br>';
+            if ($email!='') $message .= 'Результат отправлен на почту '.$email.'<br>';
+            $message .= '</div>';
         }
         else {
             if (isset($_GET['fullname'])) $name = $_GET['fullname'];
@@ -133,6 +150,12 @@
         }
     }
 
+    function send_mail() {
+        global $message, $email;
+        include 'send.php';
+    }
+
     checkSet();
+    if ($email_check==true && $email!='' && $post_or_get=='GET') send_mail();
     include 'home.html';
 ?>

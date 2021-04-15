@@ -68,12 +68,12 @@
                 <input type="text" name="result" value="<?= $test_result ?>" readonly disabled>
             </div>
             <div class="form-row">
-                <label for="sendCheck"><?php if ($post_or_get=='POST') echo 'Отправить результат на email?'; else {if ($email_check==true) echo 'Результат отправлен на почту.';} ?></label>
+                <label for="sendCheck"><?php if ($post_or_get=='POST') echo 'Отправить результат на email?'; else {if ($email_check==true) { if ($email_result!='error') echo 'Результат отправлен на почту.'; else echo 'Письмо не отправлено. Ошибка: '.($mail->ErrorInfo);}} ?></label>
                 <input type="checkbox" name="checkemail" id="sendCheck" <?php if ($email_check) echo 'checked'; ?> style="<?php if ($post_or_get=='GET') echo 'display: none;' ?>" onchange="changeSendCheck(event)">
             </div>
             <div class="form-row" style="<?php if ($email_check!=true) echo 'display: none;'; ?>" id="email">
                 <label for="email">Ваш email:</label>
-                <input type="text" name="email" value="<?= $email ?>" <?php if ($post_or_get=='GET') echo 'readonly' ?> <?php if ($email_check==true) echo 'required'; ?> >
+                <input type="text" name="email" value="<?= $email ?>" <?php if ($post_or_get=='GET') echo 'readonly'; ?> <?php if ($email_check==true) echo 'required'; ?> >
             </div>
             <div class="form-row" style="<?php if ($post_or_get=='GET') echo 'display: none;' ?>">
                 <label>Отображение</label>
@@ -90,18 +90,6 @@
     </main>
     <footer style="<?php if ($view=='print') echo 'display: none;' ?>">Бухарцев Матвей, 201-321</footer>
     <?php if ($view=='print') {
-        echo '<div class="wrapper">';
-            echo 'ФИО: '.$name.'<br>'
-            .'Номер группы: '.$group_number.'<br>'
-            .'Немного о себе: '.$about.'<br>'
-            .'Значение А: '.$a_value.'<br>'
-            .'Значение B: '.$b_value.'<br>'
-            .'Значение C: '.$c_value.'<br>'
-            .'Метод вычисления: '.$type_of_calc.'<br>'
-            .'Ваш ответ: '.$ans_your.'<br>'
-            .'Правильный ответ: '.$ans_right.'<br>'
-            .'Результат: '.$test_result.'<br>';
-        if ($email!='') echo 'Результат отправлен на почту '.$email.'<br>';
-        echo '</div>';
+        echo $message;
      } ?>
 </body>
