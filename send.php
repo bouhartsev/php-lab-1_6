@@ -8,9 +8,7 @@ include 'secret.php'; //Здесь я задаю две переменные: п
 
 // Формирование самого письма
 $title = "Результаты теста";
-$body = '<h2>Новое письмо</h2>'.$message;
-
-echo '<h2>Новое письмо</h2>'.$message;
+$body = '<h2>Вы заполнили тест. И вот результат...</h2>'.$message;
 
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
