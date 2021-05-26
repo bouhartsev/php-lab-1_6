@@ -33,7 +33,7 @@
     function calcSquare($a, $b, $c) {
         $result = 0;
         $p = calcPerimeter($a, $b, $c)/2;
-        $result = round(sqrt($p*($p-$a)($p-$b)($p-$c)),2);
+        $result = round(sqrt($p*($p-$a)*($p-$b)*($p-$c)),2);
         return $result;
     }
 
