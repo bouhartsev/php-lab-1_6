@@ -1,0 +1,34 @@
+# ftp deploy with Circle CI
+
+version: 2.1
+
+workflows:
+  ftp-workflow:
+    jobs:
+      - build:
+          context:
+            - polytech
+          filters:
+            branches:
+              only:
+                - main
+                - master
+
+jobs:
+  build:
+    docker:
+      - image: cimg/php:8.0.9
+ 
+    working_directory: ~/repo
+ 
+    steps:
+      - checkout
+      - run: 
+          name: Deploy Master Branch
+          command: |
+            sudo apt-get update
+            sudo apt-get -qq install git-ftp
+            echo " "
+            echo "Deploying project..."
+            echo $(git status)
+            git ftp push --auto-init --force --all --user "${FTP_USER}" --passwd "${FTP_PWD}" "${FTP_ROOT}/htdocs/server/course1/lab6/"
